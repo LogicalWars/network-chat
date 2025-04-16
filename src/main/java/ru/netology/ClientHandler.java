@@ -21,6 +21,7 @@ public class ClientHandler implements Runnable{
             String clientString;
             while ((clientString = in.readLine()) != null) {
                 System.out.println(LocalDateTime.now() + ": " + clientString);
+                Logger.getInstance().log("Error", clientString);
             }
 
             out.println("Сообщение получено");
