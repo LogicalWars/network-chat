@@ -11,11 +11,13 @@ public class Main {
 
     public static void main(String[] args) {
         new ServerProperties();
+        ChatServer server = new ChatServer();
+
         try (ServerSocket serverSocket = new ServerSocket(ServerProperties.getServerPort())) {
             try (ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREAD)){
                 while (true) {
                     Socket clientSocket = serverSocket.accept();
-                    executorService.submit(new ClientHandler(clientSocket));
+                    executorService.submit(new ClientHandler(clientSocket, server));
                 }
             }
         } catch (IOException e) {

@@ -1,33 +1,36 @@
-package ru.netology;
+package ru.netology.util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class Logger {
-    private static Logger INSTANCE = null;
+public class FileLogger implements Logger {
+    private static FileLogger INSTANCE = null;
     private final String PATH_TO_FILE = "logs.txt";
 
-    private Logger() {
+    private FileLogger() {
     }
 
-    public static Logger getInstance() {
+    public static FileLogger getInstance() {
         if (INSTANCE == null) {
-            synchronized (Logger.class) {
+            synchronized (FileLogger.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new Logger();
+                    INSTANCE = new FileLogger();
                 }
             }
         }
         return INSTANCE;
     }
 
+    @Override
     public void log(String level, String message) {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(PATH_TO_FILE, true))) {
-            out.write(LocalDateTime.now() + ": " + message + "\n");
+            out.write("[%s][%s]: %s\n".formatted(LocalDateTime.now(), level, message));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }
