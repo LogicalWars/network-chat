@@ -1,5 +1,7 @@
 package ru.netology.util;
 
+import ru.netology.entity.Message;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,9 +26,9 @@ public class FileLogger implements Logger {
     }
 
     @Override
-    public void log(String level, String message) {
+    public void log(String level, Message message) {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(PATH_TO_FILE, true))) {
-            out.write("[%s][%s]: %s\n".formatted(LocalDateTime.now(), level, message));
+            out.write("[%s][%s]: %s: %s\n".formatted(LocalDateTime.now(), level, message.getName(), message.getMessage()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -3,6 +3,7 @@ package ru.netology.util;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.entity.Message;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,7 +42,9 @@ class FileLoggerTest {
     @Test
     void testLogMessage() throws IOException {
         String level = "INFO";
-        String message = "Test message";
+        String testMessage = "Test message";
+        String testName = "bob";
+        Message message = new Message(LocalDateTime.now().toString(), testName, testMessage);
 
         fileLogger.log(level, message);
 
@@ -50,7 +54,8 @@ class FileLoggerTest {
         try (BufferedReader reader = new BufferedReader(new FileReader(TEST_LOG_FILE))) {
             String line = reader.readLine();
             assertTrue(line.contains(level));
-            assertTrue(line.contains(message));
+            assertTrue(line.contains(testMessage));
+            assertTrue(line.contains(testName));
         }
     }
 }

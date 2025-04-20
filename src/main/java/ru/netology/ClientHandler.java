@@ -29,7 +29,7 @@ public class ClientHandler implements Runnable {
             while ((jsonInput = in.readLine()) != null) {
                 Message message = mapper.readValue(jsonInput, Message.class);
                 System.out.printf("%s %s: %s%n", message.getDateTime(), message.getName(), message.getMessage());
-                FileLogger.getInstance().log("INFO", "%s: %s".formatted(message.getName(), message.getMessage()));
+                FileLogger.getInstance().log("INFO", message);
                 server.broadcastMessage(message);
             }
         } catch (IOException e) {
